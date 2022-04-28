@@ -1,0 +1,31 @@
+﻿@model PIZZA.Models.Pizza
+@{
+    ViewBag.Title = "Home Page";
+}
+
+
+
+<div class="jumbotron">
+    <h1>Пицца магазин</h1>
+    <p class="lead">Магазин пиццы "Пицца магазин" - самое вкусное место, чтобы купить пиццу!</p>
+</div>
+<h1>Ассортимент</h1>
+<div class="row">
+    @foreach (PIZZA.Models.Pizza p in ViewBag.Pizzas)
+    {
+
+        <div class="col-md-4">
+            <h2>@p.Name</h2>
+            <img src="~/Content/@p.PicFile" />
+            <p>
+                @p.Description
+            </p>
+            @using (Html.BeginForm("AddToCart", "Cart"))
+            {
+            @Html.Hidden("productId", p.PizzaId)
+            @Html.Hidden("returnUrl", Request.Url.PathAndQuery)
+            <input class="btn btn-default" type="submit" value="+ Добавить в корзину" />
+            }
+        </div>
+    }
+</div>

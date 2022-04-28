@@ -1,0 +1,43 @@
+﻿@model PIZZA.Models.OrderViewModel
+
+<!DOCTYPE html>
+
+<body>
+    <h2>Ваши заказы</h2>
+    @foreach (var x in Model.orders)
+    {
+        <div class="row mt-5 mb-2">
+            <div>
+                <h4>Заказ №@x.Id от @x.date.ToString("d")</h4>
+            </div>
+            <table width="90%" align="right"
+                   cellpadding="10" cellspacing="10">
+                <tr>
+                    <th>Блюдо</th>
+                    <th>Цена за шт</th>
+                    <th>Количество</th>
+                    <th>Цена</th>
+                </tr>
+                @foreach (var y in Model.orderPositions.Where(p => p.orderid == x.Id))
+                {
+                    var piz = @Model.Pizzas.FirstOrDefault(p => p.PizzaId == y.pizzaid);
+                    <tr>
+                        <td>@piz.Name</td>
+                        <td>@piz.Price</td>
+                        <td>@y.quantity</td>
+                        @{decimal pr = piz.Price * y.quantity;}
+                        <td>@pr</td>
+                    </tr>
+                }
+                <tfoot>
+                    <tr>
+                        <td colspan="3" align="right">Итого:</td>
+                        <td align="right">
+                            @Model.TotalPrice(x.Id);
+                        </td>
+                    </tr>
+                </tfoot>
+            </table>
+        </div>
+    }
+</body>
